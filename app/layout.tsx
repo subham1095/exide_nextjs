@@ -1,12 +1,17 @@
 import "./globals.css";
 import CookieConsent from "../components/CookieConsent";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Maa Tara Auto Electric",
   description: "Exide Sub-Dealer",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode; // <-- REQUIRED FIX
+}) {
   return (
     <html lang="en">
       <body>

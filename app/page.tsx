@@ -16,6 +16,27 @@ export default function Home() {
     QRCode.toDataURL(mapsLink).then(setQrImage);
   }, []);
 
+  const [form, setForm] = useState({
+  name: "",
+  phone: "",
+  vehicle: "",
+  address: "",
+});
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const res = await fetch("/api/book", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(form),
+  });
+
+  const data = await res.json();
+  alert(data.message);
+};
+
+
   return (
     <div className={darkMode ? "dark" : ""}>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white transition-all duration-300">
@@ -147,22 +168,27 @@ export default function Home() {
             <form className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow space-y-4">
               <input
                 className="w-full p-3 rounded bg-gray-100 dark:bg-gray-700"
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Your Name"
               />
               <input
                 className="w-full p-3 rounded bg-gray-100 dark:bg-gray-700"
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 placeholder="Phone Number"
               />
               <input
                 className="w-full p-3 rounded bg-gray-100 dark:bg-gray-700"
+                onChange={(e) => setForm({ ...form, vehicle: e.target.value })}
                 placeholder="Vehicle Type"
               />
               <textarea
                 className="w-full p-3 rounded bg-gray-100 dark:bg-gray-700"
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
                 placeholder="Your Address"
               ></textarea>
 
-              <button className="bg-red-700 text-white py-3 rounded-lg w-full hover:bg-red-800">
+              <button onClick={handleSubmit}
+              className="bg-red-700 text-white py-3 rounded-lg w-full hover:bg-red-800">
                 Submit Request
               </button>
             </form>
